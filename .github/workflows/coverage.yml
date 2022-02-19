@@ -25,19 +25,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install apt dependencies
-        run: |
-          apt-get update && \
-          apt-get install -y clang libssl-dev llvm libudev-dev libgmp3-dev && \
-          rm -rf /var/lib/apt/lists/*
-
       - name: Rust Cache
         uses: Swatinem/rust-cache@v1.3.0
 
       - name: Run Tarpaulin
         uses: actions-rs/tarpaulin@v0.1
         with:
-          args: '--workspace --release --locked --out Xml --jobs 16 --timeout 3600 -- --test-threads 16'
+          version: '0.15.0'
+          args: '--workspace --release --locked --out Xml --features test --jobs 16 --timeout 3600 -- --test-threads 16'
 
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
